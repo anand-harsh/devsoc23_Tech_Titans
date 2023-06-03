@@ -1,13 +1,5 @@
 #! /usr/bin/env python
 
-"""
-Dijkstra's algorithm path planning exercise solution
-Author: Roberto Zegers R.
-Copyright: Copyright (c) 2020, Roberto Zegers R.
-License: BSD-3-Clause
-Date: Nov 30, 2020
-Usage: roslaunch unit2_pp unit2_solution.launch
-"""
 
 import rospy
 
@@ -133,6 +125,8 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
 
       # calculate g_cost of neighbour considering it is reached through current_node
       g_cost = g_costs[current_node] + step_cost
+      h_cost=euclidean_distance(neighbor_index, goal_index, width)
+      f_cost=g_cost+h_cost
 
       # Check if the neighbor is in open_list
       in_open_list = False

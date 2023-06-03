@@ -1,13 +1,5 @@
 #!/usr/bin/env python
 
-"""
-ROS service server node for Dijkstra's algorithm path planning exercise
-Author: Roberto Zegers R.
-Copyright: Copyright (c) 2021, Roberto Zegers R.
-License: BSD-3-Clause
-Date: March 2021
-"""
-
 import rospy
 from pp_msgs.srv import PathPlanningPlugin, PathPlanningPluginResponse
 from geometry_msgs.msg import Twist
@@ -41,16 +33,16 @@ def make_plan(req):
   path = dijkstra(start_index, goal_index, width, height, costmap, resolution, origin, viz)
 
   if not path:
-    rospy.logwarn("No path returned by Dijkstra's shortes path algorithm")
+    rospy.logwarn("No path returned by A Star")
     path = []
   else:
     execution_time = rospy.Time.now() - start_time
     print("\n")
-    rospy.loginfo('++++++++ Dijkstra execution metrics ++++++++')
+    rospy.loginfo('++++++++ A Star execution metrics ++++++++')
     rospy.loginfo('Total execution time: %s seconds', str(execution_time.to_sec()))
     rospy.loginfo('++++++++++++++++++++++++++++++++++++++++++++')
     print("\n")
-    rospy.loginfo('Dijkstra: Path sent to navigation stack')
+    rospy.loginfo('A Star: Path sent to navigation stack')
 
   resp = PathPlanningPluginResponse()
   resp.plan = path
@@ -61,7 +53,7 @@ def clean_shutdown():
   rospy.sleep(1)
 
 if __name__ == '__main__':
-  rospy.init_node('dijkstra_path_planning_service_server', log_level=rospy.INFO, anonymous=False)
+  rospy.init_node('A Star planning', log_level=rospy.INFO, anonymous=False)
   make_plan_service = rospy.Service("/move_base/SrvClientPlugin/make_plan", PathPlanningPlugin, make_plan)
   cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=5)
   rospy.on_shutdown(clean_shutdown)

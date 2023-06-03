@@ -1,14 +1,5 @@
 #! /usr/bin/env python
 
-"""
-Dijkstra's algorithm path planning exercise
-Author: Roberto Zegers R.
-Copyright: Copyright (c) 2020, Roberto Zegers R.
-License: BSD-3-Clause
-Date: Nov 30, 2020
-Usage: roslaunch unit2_pp unit2_exercise.launch
-"""
-
 import rospy
 
 def find_neighbors(index, width, height, costmap, orthogonal_step_cost):
