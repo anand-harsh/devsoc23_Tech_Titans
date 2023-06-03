@@ -68,7 +68,7 @@ def find_neighbors(index, width, height, costmap, orthogonal_step_cost):
 
 def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin, grid_viz):
   ''' 
-  Performs Dijkstra's shortes path algorithm search on a costmap with a given start and goal node
+  Performs A Star shortes path algorithm search on a costmap with a given start and goal node
   '''
 
   # create an open_list
@@ -92,7 +92,7 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
   shortest_path = []
 
   path_found = False
-  rospy.loginfo('Dijkstra: Done with initialization')
+  rospy.loginfo('A Star: Done with initialization')
 
   # Main loop, executes as long as there are still nodes inside open_list
   while open_list:
@@ -155,10 +155,10 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
         # Optional: visualize frontier
         grid_viz.set_color(neighbor_index,'orange')
 
-  rospy.loginfo('Dijkstra: Done traversing nodes in open_list')
+  rospy.loginfo('A Star: Done traversing nodes in open_list')
 
   if not path_found:
-    rospy.logwarn('Dijkstra: No path found!')
+    rospy.logwarn('A Star: No path found!')
     return shortest_path
 
   # Reconstruct path by working backwards from target
@@ -171,7 +171,7 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
           node = parents[node]
   # reverse list
   shortest_path = shortest_path[::-1]
-  rospy.loginfo('Dijkstra: Done reconstructing path')
+  rospy.loginfo('A Star: Done reconstructing path')
 
   return shortest_path
 

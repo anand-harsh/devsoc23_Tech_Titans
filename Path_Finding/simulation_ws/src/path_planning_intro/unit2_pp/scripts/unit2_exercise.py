@@ -67,7 +67,7 @@ def find_neighbors(index, width, height, costmap, orthogonal_step_cost):
 
 def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin, grid_viz = None):
   ''' 
-  Performs Dijkstra's shortes path algorithm search on a costmap with a given start and goal node
+  Performs A Star algorithm search on a costmap with a given start and goal node
   '''
   #### To-do: complete all exercises below ####
 

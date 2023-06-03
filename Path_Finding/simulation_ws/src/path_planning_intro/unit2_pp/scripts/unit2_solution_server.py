@@ -30,11 +30,11 @@ def make_plan(req):
   # time statistics
   start_time = rospy.Time.now()
 
-  # calculate the shortes path using Dijkstra
+  # calculate the shortes path using A Star
   path = dijkstra(start_index, goal_index, width, height, costmap, resolution, origin, viz)
 
   if not path:
-    rospy.logwarn("No path returned by Dijkstra's shortes path algorithm")
+    rospy.logwarn("No path returned by A Star algorithm")
     path = []
   else:
     execution_time = rospy.Time.now() - start_time
