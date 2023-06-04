@@ -2,6 +2,17 @@
 
 
 import rospy
+from math import sqrt
+
+def euclidean_distance(index, goal_index, width):
+  index_x=index%width
+  index_y=int(index/width)
+  goal_x=goal_index%width
+  goal_y=int(goal_index/width)
+  
+  distance=(index_x-goal_x)**2+(index_y-goal_y)**2
+  return sqrt(distance)
+
 
 def find_neighbors(index, width, height, costmap, orthogonal_step_cost):
   """
@@ -82,11 +93,15 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
 
   # dict for mapping g costs (travel costs) to nodes
   g_costs = dict()
+  
+  f_costs=dict()
 
   # set the start's node g_cost
   g_costs[start_index] = 0
+  f_costs[start_index]=0
 
   # add start node to open list
+  start_cost=0+euclidean_distance(start_index,goal_index,width)
   open_list.append([start_index, 0])
 
   shortest_path = []
@@ -137,20 +152,23 @@ def dijkstra(start_index, goal_index, width, height, costmap, resolution, origin
 
       # CASE 1: neighbor already in open_list
       if in_open_list:
-        if g_cost < g_costs[neighbor_index]:
+        if f_cost < f_costs[neighbor_index]:
           # Update the node's g_cost inside g_costs
           g_costs[neighbor_index] = g_cost
+          f_costs[neighbor_index] = f_cost
+
           parents[neighbor_index] = current_node
           # Update the node's g_cost inside open_list
-          open_list[idx] = [neighbor_index, g_cost]
+          open_list[idx] = [neighbor_index, f_cost]
 
       # CASE 2: neighbor not in open_list
       else:
         # Set the node's g_cost inside g_costs
         g_costs[neighbor_index] = g_cost
+        f_costs[neighbor_index] = f_cost
         parents[neighbor_index] = current_node
         # Add neighbor to open_list
-        open_list.append([neighbor_index, g_cost])
+        open_list.append([neighbor_index, f_cost])
 
         # Optional: visualize frontier
         grid_viz.set_color(neighbor_index,'orange')
